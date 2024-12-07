@@ -1,11 +1,12 @@
 name: Playwright Tests
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
 jobs:
-  test:
+  e2e_tests:
+    name: Playwright Tests
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -28,8 +29,8 @@ jobs:
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
-    if: "success() || needs.test.result == 'failure'"
-    needs: [test]
+    if: "success() || needs.e2e_tests.result == 'failure'"
+    needs: [e2e_tests]
     runs-on: ubuntu-latest
     continue-on-error: true
     env:
