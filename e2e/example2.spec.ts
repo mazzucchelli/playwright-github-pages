@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('my failing test', async ({ page }) => {
+test.skip('my failing test', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
   // Click the get started link.

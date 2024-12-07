@@ -1,9 +1,8 @@
 name: Playwright Tests
-
 on:
-  push:
-    branches: [main]
-
+  pull_request:
+    branches:
+      - main
 jobs:
   e2e_tests:
     name: Playwright Tests
@@ -72,6 +71,22 @@ jobs:
               exit 0
             fi
           done
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        if: "needs.e2e_tests.result == 'failure'"
+        with:
+          message: |
+            🚨 Playwright tests failed!
+            
+            Please review the [HTML report](https://mazzucchelli.github.io/playwright-github-pages/${{ env.HTML_REPORT_URL_PATH }}/index.html) for more details.
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        if: "needs.e2e_tests.result == 'success'"
+        with:
+          message: |
+            ✅ Playwright tests passed!
+            
+            Please review the [HTML report](https://mazzucchelli.github.io/playwright-github-pages/${{ env.HTML_REPORT_URL_PATH }}/index.html) for more details.
       - name: Output Report URL as Worfklow Annotation
         run: |
           FULL_HTML_REPORT_URL=https://mazzucchelli.github.io/playwright-github-pages/$HTML_REPORT_URL_PATH
