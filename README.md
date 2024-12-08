@@ -1,50 +1,34 @@
-# React + TypeScript + Vite
+# Hosting Playwright Reports on GitHub Pages
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This README explains how to host Playwright reports on GitHub Pages, enabling you to share your test results publicly or within your team. Follow these steps to set up automatic deployment of Playwright reports to GitHub Pages using GitHub Actions.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- A GitHub repository with Playwright tests configured.
+- GitHub Actions enabled for your repository.
+- A basic understanding of Playwright and GitHub Pages.
 
-## Expanding the ESLint configuration
+## Steps to Host Reports
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. Generate Playwright Reports
 
-- Configure the top-level `parserOptions` property like this:
+Ensure your Playwright tests are configured to generate an HTML report. Update the `playwright.config.ts` file if needed:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```javascript
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  reporter: 'html',
+});
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Set Up GitHub Pages
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Navigate to your repository on GitHub.
+2. Go to **Settings > Pages**.
+3. Under "Source," select the branch and folder where the reports will be deployed (e.g., `gh-pages` branch or `/root` folder).
+4. Click **Save**.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### 3. ...
+
+WIP
