@@ -1,12 +1,10 @@
 # Hosting Playwright Reports on GitHub Pages
 
-This README explains how to host Playwright reports on GitHub Pages, enabling you to share your test results publicly or within your team. Follow these steps to set up automatic deployment of Playwright reports to GitHub Pages using GitHub Actions.
+This README explains how to host Playwright reports on GitHub Pages, enabling you to share your test results publicly or within your team. The following workflow will:
 
-## Prerequisites
-
-- A GitHub repository with Playwright tests configured.
-- GitHub Actions enabled for your repository.
-- A basic understanding of Playwright and GitHub Pages.
+ - Generate the reports and host them in GitHub Pages every time a new PR is created or updated
+ - Automatically comment the PR with the report URL
+ - Delete the report once the branch is deleted
 
 ## Steps to Host Reports
 
@@ -24,11 +22,23 @@ export default defineConfig({
 
 ### 2. Set Up GitHub Pages
 
-1. Navigate to your repository on GitHub.
-2. Go to **Settings > Pages**.
-3. Under "Source," select the branch and folder where the reports will be deployed (e.g., `gh-pages` branch or `/root` folder).
-4. Click **Save**.
+1. Create a new orphan branch 
 
-### 3. ...
+  ```
+    git checkout --orphan gh-pages
+    git rm -rf .
+    git commit --allow-empty -m "setup empty branch for GitHub Pages"
+    git push --set-upstream origin gh-pages
+  ```
 
-WIP
+2. Navigate to your repository on GitHub.
+3. Go to **Settings > Pages**.
+4. Select `Deploy from a branch` and set `gh-pages` as branch
+
+### 3. Update the test job with a publish step
+
+1. See `.github/workflows/playwright-pull-request.yml` file as reference (remember to update the report URL defined in the last 3 steps with your `owner` and `repo`)
+
+### 3. Create a new action
+
+1. See `.github/workflows/playwright-delete-reports.yml` file as reference
